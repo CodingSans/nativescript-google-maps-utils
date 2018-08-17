@@ -43,33 +43,22 @@ export function disableDebug(): void {
   debug = debugNull;
 }
 
-
-const CustomClusterItem = java.lang.Object.extend({
-
-  interfaces: [ClusterItem],
-
-  marker: null, // will be attached manually later
-
+const CustomClusterItem = ClusterItem.extend({
+  marker: null,
   init: function () { },
-
   getMarker: function () {
-    return this.marker;
+      return this.marker;
   },
-
   getPosition: function () {
-    return this.marker.position.android;
+      return this.marker.position.android;
   },
-
   getTitle: function () {
-    return this.marker.title;
+      return this.marker.title;
   },
-
   getSnippet: function () {
-    return this.marker.snippet;
+      return this.marker.snippet;
   },
-
 });
-
 
 const CustomClusterManager = ClusterManager.extend({
 
