@@ -1,6 +1,4 @@
 node_modules
-*.js
-!demo/app/*.js
 *.map
 *.d.ts
 !references.d.ts
