@@ -76,27 +76,31 @@ const CustomClusterManager = ClusterManager.extend({
         return false;
     },
 });
+var clusterManager;
 function setupMarkerCluster(mapView, markers, options) {
     debug('setupMarkerCluster');
-    var clusterManager = new CustomClusterManager(utils.ad.getApplicationContext(), mapView.gMap);
+    clusterManager = new CustomClusterManager(utils.ad.getApplicationContext(), mapView.gMap);
     clusterManager.mapView = mapView;
-    if (mapView.gMap.setOnCameraIdleListener) {
-        mapView.gMap.setOnCameraIdleListener(clusterManager);
-    }
-    else if (mapView.gMap.setOnCameraChangeListener) {
-        mapView.gMap.setOnCameraChangeListener(clusterManager);
-    }
-    mapView.gMap.setOnMarkerClickListener(clusterManager);
-    mapView.gMap.setOnInfoWindowClickListener(clusterManager);
-    markers.forEach(function (marker) {
-        let markerItem = new CustomClusterItem();
-        markerItem.marker = marker;
-        clusterManager.addItem(markerItem);
-        mapView._markers.push(marker);
-    });
-    clusterManager.cluster();
 }
 exports.setupMarkerCluster = setupMarkerCluster;
+function addMarkers(markers) {
+    if (clusterManager) {
+        markers.forEach(function (marker) {
+            let markerItem = new CustomClusterItem();
+            markerItem.marker = marker;
+            clusterManager.addItem(markerItem);
+        });
+        clusterManager.cluster();
+    }
+}
+exports.addMarkers = addMarkers;
+function removeMarkers() {
+    if (clusterManager) {
+        clusterManager.clearItems();
+        clusterManager.cluster();
+    }
+}
+exports.removeMarkers = removeMarkers;
 function setupHeatmap(mapView, positions, config = null) {
     debug('setupHeatmap');
     var list = new java.util.ArrayList();
