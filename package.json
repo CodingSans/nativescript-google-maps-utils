@@ -37,9 +37,9 @@
   },
   "homepage": "https://github.com/naderio/nativescript-google-maps-utils#readme",
   "devDependencies": {
-    "tns-core-modules": "3.0.1",
-    "tns-platform-declarations": "3.0.1",
-    "typescript": "2.3.4"
+    "tns-core-modules": "4.2.0",
+    "tns-platform-declarations": "4.2.0",
+    "typescript": "2.7.2"
   },
   "dependencies": {
     "nativescript-google-maps-sdk": "*"
