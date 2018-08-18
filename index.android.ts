@@ -97,14 +97,14 @@ export function setupMarkerCluster(mapView: MapView, markers: Array<Marker>, opt
 
   clusterManager.mapView = mapView;
 
-  // if (mapView.gMap.setOnCameraIdleListener) {
-  //   mapView.gMap.setOnCameraIdleListener(clusterManager);
-  // } else if (mapView.gMap.setOnCameraChangeListener) {
-  //   mapView.gMap.setOnCameraChangeListener(clusterManager);
-  // }
+  if (mapView.gMap.setOnCameraIdleListener) {
+    mapView.gMap.setOnCameraIdleListener(clusterManager);
+  } else if (mapView.gMap.setOnCameraChangeListener) {
+    mapView.gMap.setOnCameraChangeListener(clusterManager);
+  }
 
-  // mapView.gMap.setOnMarkerClickListener(clusterManager);
-  // mapView.gMap.setOnInfoWindowClickListener(clusterManager);
+  mapView.gMap.setOnMarkerClickListener(clusterManager);
+  mapView.gMap.setOnInfoWindowClickListener(clusterManager);
 
   markers.forEach(function (marker) {
     let markerItem = new CustomClusterItem();
