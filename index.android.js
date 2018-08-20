@@ -119,7 +119,6 @@ function addMarkers(mapView, markers) {
 }
 exports.addMarkers = addMarkers;
 function removeMarkers(mapView) {
-    mapView.removeMarker(mapView._markers);
     clusterManager.clearItems();
     clusterManager.cluster();
 }
