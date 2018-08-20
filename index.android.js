@@ -109,6 +109,7 @@ function setupMarkerCluster(mapView, markers, options) {
 }
 exports.setupMarkerCluster = setupMarkerCluster;
 function addMarkers(mapView, markers) {
+    clusterManager.clearItems();
     markers.forEach(function (marker) {
         let markerItem = new CustomClusterItem();
         markerItem.marker = marker;
