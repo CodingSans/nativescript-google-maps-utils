@@ -67,7 +67,7 @@ const CustomClusterManager = ClusterManager.extend({
   onCameraIdle() {
     this.super.onCameraIdle();
     if (this.customCallback) {
-      this.customCallback()
+      this.customCallback(this.mapView.getCameraPosition())
     }
   },
   onMarkerClick(gmsMarker) {
