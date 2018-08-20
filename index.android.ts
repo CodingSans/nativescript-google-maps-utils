@@ -138,12 +138,9 @@ export function addMarkers(mapView: MapView, markers: Array<Marker>) {
 }
 
 export function removeMarkers(mapView: MapView) {
-  const markers = (mapView as any)._markers;
-  markers.forEach(function (marker) {
-    marker.remove();
-  });
-
-  (mapView as any)._markers = [];
+  mapView.removeMarker((mapView as any)._markers);
+  
+  clusterManager.clearItems();
 
   clusterManager.cluster();
 }
