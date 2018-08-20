@@ -2,6 +2,8 @@
 import * as utils from "tns-core-modules/utils/utils";
 import { MapView, Marker, Position } from "nativescript-google-maps-sdk"
 
+declare var com: any;
+
 const LatLng = com.google.android.gms.maps.model.LatLng;
 const PolylineOptions = com.google.android.gms.maps.model.PolylineOptions;
 const LatLngBounds = com.google.android.gms.maps.model.LatLngBounds;
@@ -61,6 +63,13 @@ const CustomClusterItem = ClusterItem.extend({
 
 const CustomClusterManager = ClusterManager.extend({
   mapView: null, // will be attached manually later
+  customCallback: null, // will be attached manually later
+  onCameraIdle() {
+    this.super.onCameraIdle();
+    if (this.customCallback) {
+      this.customCallback()
+    }
+  },
   onMarkerClick(gmsMarker) {
     this.super.onMarkerClick(gmsMarker);
     let marker = this.mapView.findMarker((marker) => {
@@ -85,34 +94,36 @@ const CustomClusterManager = ClusterManager.extend({
   },
 });
 
-var clusterManager;
-
 export function setupMarkerCluster(mapView: MapView, markers: Array<Marker>, options) {
   debug('setupMarkerCluster');
 
-  clusterManager = new CustomClusterManager(utils.ad.getApplicationContext(), mapView.gMap);
+  const clusterManager = new CustomClusterManager(utils.ad.getApplicationContext(), mapView.gMap);
 
   clusterManager.mapView = mapView;
-}
 
-export function addMarkers(markers: Array<Marker>) {
-  if (clusterManager) {
-    markers.forEach(function (marker) {
-      let markerItem = new CustomClusterItem();
-      markerItem.marker = marker;
-      clusterManager.addItem(markerItem);
-    });
-
-    clusterManager.cluster();
+  if (options.customCallback) {
+    clusterManager.customCallback = options.customCallback;
   }
-}
 
-export function removeMarkers() {
-  if (clusterManager) {
-    clusterManager.clearItems();
-
-    clusterManager.cluster();
+  if (mapView.gMap.setOnCameraIdleListener) {
+    mapView.gMap.setOnCameraIdleListener(clusterManager);
+  } else if (mapView.gMap.setOnCameraChangeListener) {
+    mapView.gMap.setOnCameraChangeListener(clusterManager);
   }
+
+  mapView.gMap.setOnMarkerClickListener(clusterManager);
+  mapView.gMap.setOnInfoWindowClickListener(clusterManager);
+
+  markers.forEach(function (marker) {
+    let markerItem = new CustomClusterItem();
+    markerItem.marker = marker;
+    clusterManager.addItem(markerItem);
+    (mapView as any)._markers.push(marker);
+  });
+
+  clusterManager.cluster();
+
+  return clusterManager;
 }
 
 export interface IHeatmapConfig {
