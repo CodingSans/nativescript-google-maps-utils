@@ -83,9 +83,10 @@ const CustomClusterManager = ClusterManager.extend({
         return false;
     },
 });
+let clusterManager;
 function setupMarkerCluster(mapView, markers, options) {
     debug('setupMarkerCluster');
-    const clusterManager = new CustomClusterManager(utils.ad.getApplicationContext(), mapView.gMap);
+    clusterManager = new CustomClusterManager(utils.ad.getApplicationContext(), mapView.gMap);
     clusterManager.mapView = mapView;
     if (options.customCallback) {
         clusterManager.customCallback = options.customCallback;
@@ -105,9 +106,27 @@ function setupMarkerCluster(mapView, markers, options) {
         mapView._markers.push(marker);
     });
     clusterManager.cluster();
-    return clusterManager;
 }
 exports.setupMarkerCluster = setupMarkerCluster;
+function addMarkers(mapView, markers) {
+    markers.forEach(function (marker) {
+        let markerItem = new CustomClusterItem();
+        markerItem.marker = marker;
+        clusterManager.addItem(markerItem);
+        mapView._markers.push(marker);
+    });
+    clusterManager.cluster();
+}
+exports.addMarkers = addMarkers;
+function removeMarkers(mapView) {
+    const markers = mapView._markers;
+    markers.forEach(function (marker) {
+        marker.remove();
+    });
+    mapView._markers = [];
+    clusterManager.cluster();
+}
+exports.removeMarkers = removeMarkers;
 function setupHeatmap(mapView, positions, config = null) {
     debug('setupHeatmap');
     var list = new java.util.ArrayList();

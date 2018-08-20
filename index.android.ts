@@ -94,10 +94,12 @@ const CustomClusterManager = ClusterManager.extend({
   },
 });
 
+let clusterManager;
+
 export function setupMarkerCluster(mapView: MapView, markers: Array<Marker>, options) {
   debug('setupMarkerCluster');
 
-  const clusterManager = new CustomClusterManager(utils.ad.getApplicationContext(), mapView.gMap);
+  clusterManager = new CustomClusterManager(utils.ad.getApplicationContext(), mapView.gMap);
 
   clusterManager.mapView = mapView;
 
@@ -122,8 +124,28 @@ export function setupMarkerCluster(mapView: MapView, markers: Array<Marker>, opt
   });
 
   clusterManager.cluster();
+}
 
-  return clusterManager;
+export function addMarkers(mapView: MapView, markers: Array<Marker>) {
+  markers.forEach(function (marker) {
+    let markerItem = new CustomClusterItem();
+    markerItem.marker = marker;
+    clusterManager.addItem(markerItem);
+    (mapView as any)._markers.push(marker);
+  });
+
+  clusterManager.cluster();
+}
+
+export function removeMarkers(mapView: MapView) {
+  const markers = (mapView as any)._markers;
+  markers.forEach(function (marker) {
+    marker.remove();
+  });
+
+  (mapView as any)._markers = [];
+
+  clusterManager.cluster();
 }
 
 export interface IHeatmapConfig {
