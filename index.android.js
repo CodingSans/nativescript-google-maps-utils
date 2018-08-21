@@ -103,18 +103,17 @@ function setupMarkerCluster(mapView, markers, options) {
         let markerItem = new CustomClusterItem();
         markerItem.marker = marker;
         clusterManager.addItem(markerItem);
-        mapView._markers.push(marker);
     });
     clusterManager.cluster();
 }
 exports.setupMarkerCluster = setupMarkerCluster;
 function addMarkers(mapView, markers) {
     clusterManager.clearItems();
+    clusterManager.cluster();
     markers.forEach(function (marker) {
         let markerItem = new CustomClusterItem();
         markerItem.marker = marker;
         clusterManager.addItem(markerItem);
-        mapView._markers.push(marker);
     });
     clusterManager.cluster();
 }

@@ -120,7 +120,7 @@ export function setupMarkerCluster(mapView: MapView, markers: Array<Marker>, opt
     let markerItem = new CustomClusterItem();
     markerItem.marker = marker;
     clusterManager.addItem(markerItem);
-    (mapView as any)._markers.push(marker);
+    // (mapView as any)._markers.push(marker);
   });
 
   clusterManager.cluster();
@@ -128,12 +128,14 @@ export function setupMarkerCluster(mapView: MapView, markers: Array<Marker>, opt
 
 export function addMarkers(mapView: MapView, markers: Array<Marker>) {
   clusterManager.clearItems();
-  
+
+  clusterManager.cluster();
+
   markers.forEach(function (marker) {
     let markerItem = new CustomClusterItem();
     markerItem.marker = marker;
     clusterManager.addItem(markerItem);
-    (mapView as any)._markers.push(marker);
+    // (mapView as any)._markers.push(marker);
   });
 
   clusterManager.cluster();
