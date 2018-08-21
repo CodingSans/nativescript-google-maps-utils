@@ -108,7 +108,8 @@ function addMarkers(mapView, markers) {
         markerItem.marker = marker;
         return markerItem;
     });
-    clusterManager.addItems(clusterItems);
+    const items = java.util.Arrays.asList(clusterItems);
+    clusterManager.addItems(items);
     clusterManager.cluster();
 }
 exports.addMarkers = addMarkers;
