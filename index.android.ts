@@ -126,7 +126,9 @@ export function addMarkers(mapView: MapView, markers: Array<Marker>) {
     return markerItem;
   });
 
-  clusterManager.addItems(clusterItems);
+  const items = java.util.Arrays.asList(clusterItems);
+
+  clusterManager.addItems(items);
   clusterManager.cluster();
 }
 
