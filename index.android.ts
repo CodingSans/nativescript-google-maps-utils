@@ -98,43 +98,54 @@ let clusterManager;
 
 export function setupMarkerCluster(mapView: MapView, markers: Array<Marker>, options) {
   debug('setupMarkerCluster');
+  try {
+    clusterManager = new CustomClusterManager(utils.ad.getApplicationContext(), mapView.gMap);
 
-  clusterManager = new CustomClusterManager(utils.ad.getApplicationContext(), mapView.gMap);
+    clusterManager.mapView = mapView;
 
-  clusterManager.mapView = mapView;
+    if (options.customCallback) {
+      clusterManager.customCallback = options.customCallback;
+    }
 
-  if (options.customCallback) {
-    clusterManager.customCallback = options.customCallback;
+    if (mapView.gMap.setOnCameraIdleListener) {
+      mapView.gMap.setOnCameraIdleListener(clusterManager);
+    } else if (mapView.gMap.setOnCameraChangeListener) {
+      mapView.gMap.setOnCameraChangeListener(clusterManager);
+    }
+
+    mapView.gMap.setOnMarkerClickListener(clusterManager);
+    mapView.gMap.setOnInfoWindowClickListener(clusterManager);
+
+    addMarkers(mapView, markers);
+  } catch (e) {
+    console.log(e);
   }
-
-  if (mapView.gMap.setOnCameraIdleListener) {
-    mapView.gMap.setOnCameraIdleListener(clusterManager);
-  } else if (mapView.gMap.setOnCameraChangeListener) {
-    mapView.gMap.setOnCameraChangeListener(clusterManager);
-  }
-
-  mapView.gMap.setOnMarkerClickListener(clusterManager);
-  mapView.gMap.setOnInfoWindowClickListener(clusterManager);
-
-  addMarkers(mapView, markers);
 }
 
 export function addMarkers(mapView: MapView, markers: Array<Marker>) {
-  const clusterItems = markers.map(marker => {
-    let markerItem = new CustomClusterItem();
-    markerItem.marker = marker;
-    return markerItem;
-  });
+  try {
+    const clusterItems = markers.map(marker => {
+      let markerItem = new CustomClusterItem();
+      markerItem.marker = marker;
+      return markerItem;
+    });
 
-  const items = java.util.Arrays.asList(clusterItems);
+    const items = java.util.Arrays.asList(clusterItems);
 
-  clusterManager.addItems(items);
-  clusterManager.cluster();
+    clusterManager.addItems(items);
+    clusterManager.cluster();
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export function removeMarkers(mapView: MapView) {
-  clusterManager.clearItems();
-  clusterManager.cluster();
+  try {
+    clusterManager.clearItems();
+    clusterManager.cluster();
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export interface IHeatmapConfig {
