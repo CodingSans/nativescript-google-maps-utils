@@ -116,44 +116,28 @@ export function setupMarkerCluster(mapView: MapView, markers: Array<Marker>, opt
   mapView.gMap.setOnMarkerClickListener(clusterManager);
   mapView.gMap.setOnInfoWindowClickListener(clusterManager);
 
-  markers.forEach(function (marker) {
-    let markerItem = new CustomClusterItem();
-    markerItem.marker = marker;
-    clusterManager.addItem(markerItem);
-    // (mapView as any)._markers.push(marker);
-  });
-
-  clusterManager.cluster();
+  addMarkers(mapView, markers);
 }
 
 export function addMarkers(mapView: MapView, markers: Array<Marker>) {
-  clusterManager.clearItems();
-
-  clusterManager.cluster();
-
-  markers.forEach(function (marker) {
+  const clusterItems = markers.map(marker => {
     let markerItem = new CustomClusterItem();
     markerItem.marker = marker;
-    clusterManager.addItem(markerItem);
-    // (mapView as any)._markers.push(marker);
+    return markerItem;
   });
 
+  clusterManager.addItems(clusterItems);
   clusterManager.cluster();
 }
 
 export function removeMarkers(mapView: MapView) {
-  // mapView.removeMarker((mapView as any)._markers);
-  
   clusterManager.clearItems();
-
   clusterManager.cluster();
 }
 
 export interface IHeatmapConfig {
-
   provider: any,
   overlay: any,
-
 }
 
 export function setupHeatmap(mapView: MapView, positions: Array<Position>, config: IHeatmapConfig = null): IHeatmapConfig {

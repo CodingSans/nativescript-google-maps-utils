@@ -99,22 +99,16 @@ function setupMarkerCluster(mapView, markers, options) {
     }
     mapView.gMap.setOnMarkerClickListener(clusterManager);
     mapView.gMap.setOnInfoWindowClickListener(clusterManager);
-    markers.forEach(function (marker) {
-        let markerItem = new CustomClusterItem();
-        markerItem.marker = marker;
-        clusterManager.addItem(markerItem);
-    });
-    clusterManager.cluster();
+    addMarkers(mapView, markers);
 }
 exports.setupMarkerCluster = setupMarkerCluster;
 function addMarkers(mapView, markers) {
-    clusterManager.clearItems();
-    clusterManager.cluster();
-    markers.forEach(function (marker) {
+    const clusterItems = markers.map(marker => {
         let markerItem = new CustomClusterItem();
         markerItem.marker = marker;
-        clusterManager.addItem(markerItem);
+        return markerItem;
     });
+    clusterManager.addItems(clusterItems);
     clusterManager.cluster();
 }
 exports.addMarkers = addMarkers;
