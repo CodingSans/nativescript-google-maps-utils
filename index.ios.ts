@@ -3,6 +3,7 @@ import * as utils from "tns-core-modules/utils/utils";
 
 import { MapView, Marker, Position } from "nativescript-google-maps-sdk"
 
+declare var GMUClusterManager: any;
 
 const debugNull = function(...args: Array<any>): void { };
 
@@ -33,8 +34,13 @@ export function disableDebug(): void {
 
 
 export function setupMarkerCluster(mapView: MapView, markers: Array<Marker>, options) {
-  debug('setupMarkerCluster');
-  // TODO
+    debug('setupMarkerCluster');
+
+    console.log("*** init ios map view: ");
+    // TODO
+    const clusterManager = GMUClusterManager.alloc();
+
+    console.log("*** map view: ", clusterManager);
 }
 
 export interface IHeatmapConfig {

@@ -27,6 +27,9 @@ function disableDebug() {
 exports.disableDebug = disableDebug;
 function setupMarkerCluster(mapView, markers, options) {
     debug('setupMarkerCluster');
+    console.log("*** init ios map view: ");
+    const clusterManager = GMUClusterManager.alloc();
+    console.log("*** map view: ", clusterManager);
 }
 exports.setupMarkerCluster = setupMarkerCluster;
 function setupHeatmap(mapView, positions, config = null) {
