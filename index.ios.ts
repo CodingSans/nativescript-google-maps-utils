@@ -38,7 +38,7 @@ export function setupMarkerCluster(mapView: MapView, markers: Array<Marker>, opt
 
     console.log("*** init ios map view: ");
     // TODO
-    const clusterManager = GMUClusterManager.alloc();
+    const clusterManager = NSClassFromString('GMUClusterManager').alloc();
 
     console.log("*** map view: ", clusterManager);
 }
